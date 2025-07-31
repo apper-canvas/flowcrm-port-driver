@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import Badge from "@/components/atoms/Badge";
-import Card from "@/components/atoms/Card";
+import { Card } from "@/components/atoms/Card";
 import { leadService } from "@/services/api/leadService";
 import { format } from "date-fns";
 

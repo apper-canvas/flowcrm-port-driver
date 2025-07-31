@@ -1,5 +1,5 @@
 import mockLeads from '@/services/mockData/leads.json';
-import { contactService } from './contactService';
+import contactService from './contactService';
 
 let leads = [...mockLeads];
 let nextId = Math.max(...leads.map(lead => lead.Id)) + 1;

@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "title": "Enterprise Software Package",
+    "value": 45000,
+    "stage": "Proposal",
+    "contactId": 1,
+    "createdAt": "2024-01-20T10:30:00Z",
+    "updatedAt": "2024-02-15T14:20:00Z"
+  },
+  {
+    "Id": 2,
+    "title": "Cloud Migration Services",
+    "value": 28000,
+    "stage": "Qualified",
+    "contactId": 2,
+    "createdAt": "2024-02-05T09:15:00Z",
+    "updatedAt": "2024-02-18T11:45:00Z"
+  },
+  {
+    "Id": 3,
+    "title": "Data Analytics Platform",
+    "value": 65000,
+    "stage": "Negotiation",
+    "contactId": 3,
+    "createdAt": "2024-01-30T11:45:00Z",
+    "updatedAt": "2024-02-19T16:30:00Z"
+  },
+  {
+    "Id": 4,
+    "title": "Digital Transformation Consulting",
+    "value": 15000,
+    "stage": "Lead",
+    "contactId": 4,
+    "createdAt": "2024-02-08T14:20:00Z",
+    "updatedAt": "2024-02-17T10:15:00Z"
+  },
+  {
+    "Id": 5,
+    "title": "Mobile App Development",
+    "value": 32000,
+    "stage": "Closed",
+    "contactId": 5,
+    "createdAt": "2024-01-25T08:30:00Z",
+    "updatedAt": "2024-02-12T15:45:00Z"
+  },
+  {
+    "Id": 6,
+    "title": "Cybersecurity Assessment",
+    "value": 12000,
+    "stage": "Lead",
+    "contactId": 6,
+    "createdAt": "2024-02-12T12:10:00Z",
+    "updatedAt": "2024-02-16T09:30:00Z"
+  },
+  {
+    "Id": 7,
+    "title": "Website Redesign Project",
+    "value": 18000,
+    "stage": "Proposal",
+    "contactId": 7,
+    "createdAt": "2024-02-01T16:45:00Z",
+    "updatedAt": "2024-02-14T11:20:00Z"
+  },
+  {
+    "Id": 8,
+    "title": "AI Integration Services",
+    "value": 55000,
+    "stage": "Qualified",
+    "contactId": 8,
+    "createdAt": "2024-02-14T13:25:00Z",
+    "updatedAt": "2024-02-20T14:10:00Z"
+  }
+]

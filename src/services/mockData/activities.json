@@ -1,0 +1,162 @@
+[
+  {
+    "Id": 1,
+    "type": "contact_created",
+    "description": "Contact Sarah Johnson was created",
+    "contactId": 1,
+    "dealId": null,
+    "timestamp": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "type": "deal_created",
+    "description": "Deal 'Enterprise Software Package' was created with value $45,000",
+    "contactId": 1,
+    "dealId": 1,
+    "timestamp": "2024-01-20T10:30:00Z"
+  },
+  {
+    "Id": 3,
+    "type": "email_sent",
+    "description": "Sent initial proposal email to Sarah Johnson",
+    "contactId": 1,
+    "dealId": 1,
+    "timestamp": "2024-01-22T14:15:00Z"
+  },
+  {
+    "Id": 4,
+    "type": "contact_created",
+    "description": "Contact Michael Chen was created",
+    "contactId": 2,
+    "dealId": null,
+    "timestamp": "2024-02-01T09:15:00Z"
+  },
+  {
+    "Id": 5,
+    "type": "call_made",
+    "description": "Had discovery call with Michael Chen about cloud migration needs",
+    "contactId": 2,
+    "dealId": null,
+    "timestamp": "2024-02-03T11:30:00Z"
+  },
+  {
+    "Id": 6,
+    "type": "deal_created",
+    "description": "Deal 'Cloud Migration Services' was created with value $28,000",
+    "contactId": 2,
+    "dealId": 2,
+    "timestamp": "2024-02-05T09:15:00Z"
+  },
+  {
+    "Id": 7,
+    "type": "contact_created",
+    "description": "Contact Emily Rodriguez was created",
+    "contactId": 3,
+    "dealId": null,
+    "timestamp": "2024-01-28T11:45:00Z"
+  },
+  {
+    "Id": 8,
+    "type": "deal_created",
+    "description": "Deal 'Data Analytics Platform' was created with value $65,000",
+    "contactId": 3,
+    "dealId": 3,
+    "timestamp": "2024-01-30T11:45:00Z"
+  },
+  {
+    "Id": 9,
+    "type": "deal_stage_changed",
+    "description": "Deal 'Data Analytics Platform' moved from Proposal to Negotiation",
+    "contactId": 3,
+    "dealId": 3,
+    "timestamp": "2024-02-10T16:20:00Z"
+  },
+  {
+    "Id": 10,
+    "type": "task_created",
+    "description": "Task 'Follow up on proposal' was created",
+    "contactId": 1,
+    "dealId": 1,
+    "timestamp": "2024-02-20T09:30:00Z"
+  },
+  {
+    "Id": 11,
+    "type": "meeting_scheduled",
+    "description": "Scheduled technical demo meeting with Michael Chen",
+    "contactId": 2,
+    "dealId": 2,
+    "timestamp": "2024-02-18T11:15:00Z"
+  },
+  {
+    "Id": 12,
+    "type": "task_completed",
+    "description": "Task 'Send contract details' was completed",
+    "contactId": 3,
+    "dealId": 3,
+    "timestamp": "2024-02-21T16:30:00Z"
+  },
+  {
+    "Id": 13,
+    "type": "contact_created",
+    "description": "Contact David Park was created",
+    "contactId": 4,
+    "dealId": null,
+    "timestamp": "2024-02-05T14:20:00Z"
+  },
+  {
+    "Id": 14,
+    "type": "deal_created",
+    "description": "Deal 'Digital Transformation Consulting' was created with value $15,000",
+    "contactId": 4,
+    "dealId": 4,
+    "timestamp": "2024-02-08T14:20:00Z"
+  },
+  {
+    "Id": 15,
+    "type": "contact_created",
+    "description": "Contact Lisa Thompson was created",
+    "contactId": 5,
+    "dealId": null,
+    "timestamp": "2024-01-20T08:30:00Z"
+  },
+  {
+    "Id": 16,
+    "type": "deal_created",
+    "description": "Deal 'Mobile App Development' was created with value $32,000",
+    "contactId": 5,
+    "dealId": 5,
+    "timestamp": "2024-01-25T08:30:00Z"
+  },
+  {
+    "Id": 17,
+    "type": "deal_stage_changed",
+    "description": "Deal 'Mobile App Development' moved to Closed - Won",
+    "contactId": 5,
+    "dealId": 5,
+    "timestamp": "2024-02-12T15:45:00Z"
+  },
+  {
+    "Id": 18,
+    "type": "contact_created",
+    "description": "Contact James Wilson was created",
+    "contactId": 6,
+    "dealId": null,
+    "timestamp": "2024-02-08T12:10:00Z"
+  },
+  {
+    "Id": 19,
+    "type": "deal_created",
+    "description": "Deal 'Cybersecurity Assessment' was created with value $12,000",
+    "contactId": 6,
+    "dealId": 6,
+    "timestamp": "2024-02-12T12:10:00Z"
+  },
+  {
+    "Id": 20,
+    "type": "contact_created",
+    "description": "Contact Amanda Garcia was created",
+    "contactId": 7,
+    "dealId": null,
+    "timestamp": "2024-01-25T16:45:00Z"
+  }
+]

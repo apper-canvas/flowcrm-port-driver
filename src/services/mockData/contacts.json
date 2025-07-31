@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@techcorp.com",
+    "phone": "+1 (555) 123-4567",
+    "company": "TechCorp Solutions",
+    "type": "customer",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "lastActivity": "2024-02-20T14:45:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Michael Chen",
+    "email": "m.chen@innovateplus.com",
+    "phone": "+1 (555) 234-5678",
+    "company": "InnovatePlus",
+    "type": "lead",
+    "createdAt": "2024-02-01T09:15:00Z",
+    "lastActivity": "2024-02-19T16:20:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Emily Rodriguez",
+    "email": "emily.r@datasystems.com",
+    "phone": "+1 (555) 345-6789",
+    "company": "DataSystems Inc",
+    "type": "customer",
+    "createdAt": "2024-01-28T11:45:00Z",
+    "lastActivity": "2024-02-18T13:30:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "David Park",
+    "email": "david.park@cloudflow.com",
+    "phone": "+1 (555) 456-7890",
+    "company": "CloudFlow Technologies",
+    "type": "lead",
+    "createdAt": "2024-02-05T14:20:00Z",
+    "lastActivity": "2024-02-17T10:15:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Lisa Thompson",
+    "email": "l.thompson@smartsolutions.com",
+    "phone": "+1 (555) 567-8901",
+    "company": "Smart Solutions LLC",
+    "type": "customer",
+    "createdAt": "2024-01-20T08:30:00Z",
+    "lastActivity": "2024-02-16T15:45:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "James Wilson",
+    "email": "james.wilson@nextgen.com",
+    "phone": "+1 (555) 678-9012",
+    "company": "NextGen Enterprises",
+    "type": "lead",
+    "createdAt": "2024-02-08T12:10:00Z",
+    "lastActivity": "2024-02-15T09:30:00Z"
+  },
+  {
+    "Id": 7,
+    "name": "Amanda Garcia",
+    "email": "amanda.garcia@digitalwave.com",
+    "phone": "+1 (555) 789-0123",
+    "company": "DigitalWave Studios",
+    "type": "customer",
+    "createdAt": "2024-01-25T16:45:00Z",
+    "lastActivity": "2024-02-14T11:20:00Z"
+  },
+  {
+    "Id": 8,
+    "name": "Robert Kim",
+    "email": "robert.kim@futuretech.com",
+    "phone": "+1 (555) 890-1234",
+    "company": "FutureTech Industries",
+    "type": "lead",
+    "createdAt": "2024-02-10T13:25:00Z",
+    "lastActivity": "2024-02-13T14:10:00Z"
+  }
+]

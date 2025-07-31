@@ -209,8 +209,8 @@ const Deals = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Contact
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-Stage
+<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Stage
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Value
@@ -224,12 +224,8 @@ Stage
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Probability
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Value
-                  </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
-Actions
                   </th>
                 </tr>
               </thead>
@@ -251,21 +247,19 @@ Actions
                     </td>
                     <td className="px-6 py-4 text-sm font-semibold text-gray-900">
                       {formatCurrency(deal.value)}
+</td>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {getSalesRepName(deal.salesRep)}
                     </td>
-                     {getSalesRepName(deal.salesRep)}
-                   </td>
-                   <td className="px-6 py-4 text-sm text-gray-500">
-                     {deal.expectedCloseDate ? format(new Date(deal.expectedCloseDate), "MMM d, yyyy") : "N/A"}
-                   </td>
-                   <td className="px-6 py-4 text-sm text-gray-500">
-                     <div className="flex items-center space-x-1">
-                       <div className={`w-2 h-2 rounded-full ${deal.probability >= 75 ? 'bg-green-500' : deal.probability >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} />
-<span>{deal.probability}%</span>
-                     </div>
-                   </td>
-                   <td className="px-6 py-4 text-sm font-semibold text-gray-900">
-                     {formatCurrency(deal.value)}
-                   </td>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {deal.expectedCloseDate ? format(new Date(deal.expectedCloseDate), "MMM d, yyyy") : "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      <div className="flex items-center space-x-1">
+                        <div className={`w-2 h-2 rounded-full ${deal.probability >= 75 ? 'bg-green-500' : deal.probability >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} />
+                        <span>{deal.probability}%</span>
+                      </div>
+                    </td>
                     <td className="px-6 py-4 text-right">
                       <Button
                         variant="ghost"

@@ -1,0 +1,67 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Johnson",
+    "company": "TechStart Inc",
+    "email": "sarah.johnson@techstart.com",
+    "phone": "+1 (555) 123-4567",
+    "source": "Website",
+    "status": "New",
+    "priority": "High",
+    "assignedTo": "John Smith",
+    "notes": "Interested in enterprise solution. Mentioned budget of $50k.",
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Michael Chen",
+    "company": "Global Solutions",
+    "email": "m.chen@globalsolutions.com",
+    "phone": "+1 (555) 234-5678",
+    "source": "Referral",
+    "status": "Contacted",
+    "priority": "Medium",
+    "assignedTo": "Jane Doe",
+    "notes": "Follow up scheduled for next week. Needs demo.",
+    "createdAt": "2024-01-14T14:20:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Emily Rodriguez",
+    "company": "Innovation Labs",
+    "email": "emily.r@innovation-labs.com",
+    "phone": "+1 (555) 345-6789",
+    "source": "Social Media",
+    "status": "Qualified",
+    "priority": "High",
+    "assignedTo": "Mike Wilson",
+    "notes": "Ready to move forward. Decision maker confirmed.",
+    "createdAt": "2024-01-13T09:15:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "David Thompson",
+    "company": "Small Business Co",
+    "email": "david@smallbiz.com",
+    "phone": "+1 (555) 456-7890",
+    "source": "Cold Call",
+    "status": "Unqualified",
+    "priority": "Low",
+    "assignedTo": "Sarah Lee",
+    "notes": "Budget too small for our solution. Referred to competitor.",
+    "createdAt": "2024-01-12T16:45:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Lisa Wang",
+    "company": "Future Dynamics",
+    "email": "lisa.wang@futuredynamics.com",
+    "phone": "+1 (555) 567-8901",
+    "source": "Trade Show",
+    "status": "New",
+    "priority": "Medium",
+    "assignedTo": "Tom Brown",
+    "notes": "Met at TechExpo 2024. Interested in Q2 implementation.",
+    "createdAt": "2024-01-11T11:30:00Z"
+  }
+]

@@ -7,6 +7,7 @@ import Contacts from "@/components/pages/Contacts";
 import Deals from "@/components/pages/Deals";
 import Tasks from "@/components/pages/Tasks";
 import Activities from "@/components/pages/Activities";
+import Leads from "@/components/pages/Leads";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
-            <Route path="contacts" element={<Contacts />} />
+<Route path="contacts" element={<Contacts />} />
+            <Route path="leads" element={<Leads />} />
             <Route path="deals" element={<Deals />} />
             <Route path="tasks" element={<Tasks />} />
             <Route path="activities" element={<Activities />} />

@@ -7,7 +7,7 @@ const Badge = forwardRef(({
   children, 
   ...props 
 }, ref) => {
-  const variants = {
+const variants = {
     default: "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800",
     primary: "bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border border-primary/20",
     secondary: "bg-gradient-to-r from-secondary/10 to-accent/10 text-secondary border border-secondary/20",
@@ -18,7 +18,10 @@ const Badge = forwardRef(({
     qualified: "bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-200",
     proposal: "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 border border-yellow-200",
     negotiation: "bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 border border-orange-200",
-    closed: "bg-gradient-to-r from-success/10 to-green-500/10 text-success border border-success/20"
+    closed: "bg-gradient-to-r from-success/10 to-green-500/10 text-success border border-success/20",
+    new: "bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 border border-blue-200",
+    contacted: "bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 border border-yellow-200",
+    unqualified: "bg-gradient-to-r from-red-100 to-red-200 text-red-800 border border-red-200"
   };
   
   return (

@@ -27,15 +27,48 @@ const Dashboard = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [dateRange, setDateRange] = useState("thisMonth");
+const [dateRange, setDateRange] = useState("thisMonth");
+  const [isPolling, setIsPolling] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
 
-  useEffect(() => {
+useEffect(() => {
     loadDashboardData();
+    
+    // Set up real-time polling for dashboard data
+    const dashboardInterval = setInterval(() => {
+      if (isPolling) {
+        loadDashboardData(true); // Silent refresh
+      }
+    }, 30000); // Refresh every 30 seconds
+
+    // Set up more frequent polling for recent activities
+    const activityInterval = setInterval(() => {
+      if (isPolling) {
+        loadRecentActivities();
+      }
+    }, 15000); // Refresh activities every 15 seconds
+
+    return () => {
+      clearInterval(dashboardInterval);
+      clearInterval(activityInterval);
+    };
+  }, [isPolling]);
+
+  // Pause polling when user is not active
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsPolling(!document.hidden);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
-  const loadDashboardData = async () => {
-    setLoading(true);
-    setError("");
+const loadDashboardData = async (silentRefresh = false) => {
+    if (!silentRefresh) {
+      setLoading(true);
+      setError("");
+    }
     
     try {
       const [contacts, deals, tasks, activities, leads] = await Promise.all([
@@ -47,10 +80,36 @@ const Dashboard = () => {
       ]);
 
       setData({ contacts, deals, tasks, activities, leads });
+      setLastUpdated(new Date());
+      
+      // Create activity for dashboard view if not silent refresh
+      if (!silentRefresh) {
+        await activityService.create({
+          type: 'dashboard_viewed',
+          description: 'Viewed sales dashboard',
+          contactId: null,
+          dealId: null
+        });
+      }
     } catch (err) {
       setError("Failed to load dashboard data. Please try again.");
     } finally {
-      setLoading(false);
+      if (!silentRefresh) {
+        setLoading(false);
+      }
+    }
+  };
+
+  const loadRecentActivities = async () => {
+    try {
+      const activities = await activityService.getAll();
+      setData(prevData => ({
+        ...prevData,
+        activities
+      }));
+      setLastUpdated(new Date());
+    } catch (err) {
+      console.error("Failed to refresh activities:", err);
     }
   };
 
@@ -233,9 +292,13 @@ return (
           <div>
             <h1 className="text-3xl font-display font-bold mb-2">
               Sales Analytics Dashboard
+              <span className="ml-3 inline-flex items-center px-2 py-1 text-xs font-medium bg-green-500/20 text-green-100 rounded-full">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                LIVE
+              </span>
             </h1>
-            <p className="text-primary-100 text-lg">
-              Track your sales performance and key business metrics
+            <p className="text-primary-100 text-sm">
+              Real-time sales performance and business metrics • Last updated: {format(lastUpdated, "h:mm:ss a")}
             </p>
           </div>
           <div className="flex items-center space-x-4">
@@ -258,9 +321,9 @@ return (
         </div>
       </div>
 
-      {/* KPI Cards */}
+      {/* Real-time KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="cursor-pointer transform hover:scale-105 transition-transform">
+        <div className="cursor-pointer transform hover:scale-105 transition-transform relative">
           <StatCard
             title="Total Revenue"
             value={formatCurrency(analytics.currentRevenue)}
@@ -268,10 +331,11 @@ return (
             trend={analytics.revenueChange >= 0 ? "up" : "down"}
             trendValue={`${analytics.revenueChange >= 0 ? '+' : ''}${analytics.revenueChange.toFixed(1)}%`}
           />
+          <div className="absolute top-2 right-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
         </div>
         
         <div 
-          className="cursor-pointer transform hover:scale-105 transition-transform"
+          className="cursor-pointer transform hover:scale-105 transition-transform relative"
           onClick={() => handleCardClick("activeDeals")}
         >
           <StatCard
@@ -281,9 +345,10 @@ return (
             trend="up"
             description="Click to view pipeline"
           />
+          <div className="absolute top-2 right-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
         </div>
         
-        <div className="cursor-pointer transform hover:scale-105 transition-transform">
+        <div className="cursor-pointer transform hover:scale-105 transition-transform relative">
           <StatCard
             title="Conversion Rate"
             value={`${analytics.conversionRate.toFixed(1)}%`}
@@ -291,10 +356,11 @@ return (
             trend={analytics.conversionRate > 20 ? "up" : "down"}
             description="Leads to deals"
           />
+          <div className="absolute top-2 right-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
         </div>
         
         <div 
-          className="cursor-pointer transform hover:scale-105 transition-transform"
+          className="cursor-pointer transform hover:scale-105 transition-transform relative"
           onClick={() => handleCardClick("tasks")}
         >
           <StatCard
@@ -305,6 +371,7 @@ return (
             trendValue={analytics.overdueTasks > 0 ? `${analytics.overdueTasks} overdue` : "On track"}
             description="Click to manage tasks"
           />
+          <div className="absolute top-2 right-2 w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
         </div>
       </div>
 
@@ -313,9 +380,15 @@ return (
         {/* Revenue Trend Chart */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <ApperIcon name="TrendingUp" size={20} className="text-primary" />
-              <span>Revenue Trend</span>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <ApperIcon name="TrendingUp" size={20} className="text-primary" />
+                <span>Revenue Trend</span>
+              </div>
+              <div className="flex items-center text-xs text-gray-500">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                Live
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -325,7 +398,12 @@ return (
                   chart: {
                     type: 'area',
                     toolbar: { show: false },
-                    sparkline: { enabled: false }
+                    sparkline: { enabled: false },
+                    animations: {
+                      enabled: true,
+                      easing: 'easeinout',
+                      speed: 800
+                    }
                   },
                   dataLabels: { enabled: false },
                   stroke: {
@@ -374,9 +452,15 @@ return (
         {/* Pipeline Distribution */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <ApperIcon name="PieChart" size={20} className="text-primary" />
-              <span>Pipeline Distribution</span>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <ApperIcon name="PieChart" size={20} className="text-primary" />
+                <span>Pipeline Distribution</span>
+              </div>
+              <div className="flex items-center text-xs text-gray-500">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                Live
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -389,7 +473,14 @@ return (
             ) : (
               <ReactApexChart
                 options={{
-                  chart: { type: 'donut' },
+                  chart: { 
+                    type: 'donut',
+                    animations: {
+                      enabled: true,
+                      easing: 'easeinout',
+                      speed: 800
+                    }
+                  },
                   labels: ['Prospecting', 'Qualification', 'Proposal', 'Negotiation', 'Closed Won'],
                   colors: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
                   legend: { position: 'bottom' },
@@ -463,12 +554,18 @@ return (
           </CardContent>
         </Card>
 
-        {/* Recent Activity */}
+        {/* Real-time Recent Activity */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <ApperIcon name="Activity" size={20} className="text-primary" />
-              <span>Recent Activity</span>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <ApperIcon name="Activity" size={20} className="text-primary" />
+                <span>Recent Activity</span>
+              </div>
+              <div className="flex items-center text-xs text-gray-500">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                Live • Auto-refresh 15s
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -483,19 +580,52 @@ return (
                 {data.activities
                   .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
                   .slice(0, 8)
-                  .map((activity) => (
-                    <div key={activity.Id} className="flex items-start space-x-3 p-3 bg-gradient-to-r from-surface/30 to-gray-50/30 rounded-lg">
-                      <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <ApperIcon name="Activity" size={14} className="text-primary" />
+                  .map((activity) => {
+                    const activityTime = new Date(activity.timestamp);
+                    const now = new Date();
+                    const timeDiff = Math.floor((now - activityTime) / 1000);
+                    
+                    let timeText;
+                    if (timeDiff < 60) {
+                      timeText = 'just now';
+                    } else if (timeDiff < 3600) {
+                      timeText = `${Math.floor(timeDiff / 60)} minutes ago`;
+                    } else if (timeDiff < 86400) {
+                      timeText = `${Math.floor(timeDiff / 3600)} hours ago`;
+                    } else {
+                      timeText = format(activityTime, "MMM d 'at' h:mm a");
+                    }
+
+                    const isRecent = timeDiff < 300; // Less than 5 minutes
+
+                    return (
+                      <div key={activity.Id} className={`flex items-start space-x-3 p-3 rounded-lg transition-all duration-500 ${
+                        isRecent 
+                          ? 'bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-400' 
+                          : 'bg-gradient-to-r from-surface/30 to-gray-50/30'
+                      }`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          isRecent 
+                            ? 'bg-gradient-to-br from-green-400/20 to-green-500/20' 
+                            : 'bg-gradient-to-br from-primary/20 to-secondary/20'
+                        }`}>
+                          <ApperIcon name="Activity" size={14} className={isRecent ? "text-green-600" : "text-primary"} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-gray-900 font-medium">{activity.description}</p>
+                          <div className="flex items-center space-x-2 mt-1">
+                            <p className="text-xs text-gray-500">{timeText}</p>
+                            {isRecent && (
+                              <span className="inline-flex items-center px-1.5 py-0.5 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                                <div className="w-1 h-1 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                                New
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-gray-900 font-medium">{activity.description}</p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {format(new Date(activity.timestamp), "MMM d 'at' h:mm a")}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             )}
           </CardContent>

@@ -271,7 +271,61 @@ class ActivityService {
       }
       return false;
     }
+}
+  async createUserActivity(type, description, relatedData = {}) {
+    try {
+      const activityData = {
+        type: type,
+        description: description,
+        contactId: relatedData.contactId || null,
+        dealId: relatedData.dealId || null
+      };
+
+      return await this.create(activityData);
+    } catch (error) {
+      console.error("Error creating user activity:", error);
+      return null;
+    }
+  }
+
+  async logUserAction(action, entityType, entityName, entityId = null, relatedData = {}) {
+    const descriptions = {
+      create: {
+        contact: `Created new contact: ${entityName}`,
+        deal: `Created new deal: ${entityName}`,
+        task: `Created new task: ${entityName}`,
+        lead: `Created new lead: ${entityName}`
+      },
+      update: {
+        contact: `Updated contact: ${entityName}`,
+        deal: `Updated deal: ${entityName}`,
+        task: `Updated task: ${entityName}`,
+        lead: `Updated lead: ${entityName}`
+      },
+      delete: {
+        contact: `Deleted contact: ${entityName}`,
+        deal: `Deleted deal: ${entityName}`,
+        task: `Deleted task: ${entityName}`,
+        lead: `Deleted lead: ${entityName}`
+      },
+      convert: {
+        lead: `Converted lead to contact: ${entityName}`
+      },
+      stage_change: {
+        deal: `Changed deal stage: ${entityName} → ${relatedData.newStage}`
+      },
+      status_change: {
+        task: `Changed task status: ${entityName} → ${relatedData.newStatus}`
+      }
+    };
+
+    const description = descriptions[action]?.[entityType] || `${action} ${entityType}: ${entityName}`;
+    const type = `${entityType}_${action}`;
+
+    return await this.createUserActivity(type, description, {
+      contactId: entityType === 'contact' ? entityId : relatedData.contactId,
+      dealId: entityType === 'deal' ? entityId : relatedData.dealId
+    });
   }
 }
-
 export default new ActivityService();

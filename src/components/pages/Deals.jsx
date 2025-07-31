@@ -3,7 +3,7 @@ import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import PipelineBoard from "@/components/organisms/PipelineBoard";
-import DealModal from "@/services/api/DealModal";
+import DealModal from "@/components/organisms/DealModal";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";

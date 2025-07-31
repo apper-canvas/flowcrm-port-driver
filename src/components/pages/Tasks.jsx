@@ -38,11 +38,11 @@ const Tasks = () => {
       ]);
       
       // Add contact names to tasks
-      const tasksWithContacts = tasksData.map(task => {
+const tasksWithContacts = tasksData.map(task => {
         const contact = contactsData.find(c => c.Id === task.contactId);
         return {
           ...task,
-          contactName: contact ? contact.name : null
+          contactName: contact ? contact.Name : null
         };
       });
       
@@ -75,8 +75,8 @@ const Tasks = () => {
       }
       
       // Add contact name to the saved task
-      const contact = contacts.find(c => c.Id === savedTask.contactId);
-      savedTask.contactName = contact ? contact.name : null;
+const contact = contacts.find(c => c.Id === savedTask.contactId);
+      savedTask.contactName = contact ? contact.Name : null;
       
       if (selectedTask) {
         setTasks(prev => prev.map(t => t.Id === selectedTask.Id ? savedTask : t));
@@ -98,8 +98,8 @@ const Tasks = () => {
         status: task.status === "completed" ? "pending" : "completed"
       });
 
-      const contact = contacts.find(c => c.Id === updatedTask.contactId);
-      updatedTask.contactName = contact ? contact.name : null;
+const contact = contacts.find(c => c.Id === updatedTask.contactId);
+      updatedTask.contactName = contact ? contact.Name : null;
 
       setTasks(prev => prev.map(t => t.Id === taskId ? updatedTask : t));
       toast.success(`Task marked as ${updatedTask.status}`);

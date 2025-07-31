@@ -33,11 +33,11 @@ const Activities = () => {
       ]);
       
       // Add contact names to activities
-      const activitiesWithContacts = activitiesData.map(activity => {
+const activitiesWithContacts = activitiesData.map(activity => {
         const contact = contactsData.find(c => c.Id === activity.contactId);
         return {
           ...activity,
-          contactName: contact ? contact.name : "Unknown Contact"
+          contactName: contact ? contact.Name : "Unknown Contact"
         };
       });
       

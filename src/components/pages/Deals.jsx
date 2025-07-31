@@ -31,7 +31,7 @@ const Deals = () => {
     setError("");
     
     try {
-      const [dealsData, contactsData] = await Promise.all([
+const [dealsData, contactsData] = await Promise.all([
         dealService.getAll(),
         contactService.getAll()
       ]);
@@ -41,7 +41,7 @@ const Deals = () => {
         const contact = contactsData.find(c => c.Id === deal.contactId);
         return {
           ...deal,
-          contactName: contact ? contact.name : "Unknown Contact"
+          contactName: contact ? contact.Name : "Unknown Contact"
         };
       });
       
@@ -73,9 +73,9 @@ const Deals = () => {
         savedDeal = await dealService.create(formData);
       }
       
-      // Add contact name to the saved deal
+// Add contact name to the saved deal
       const contact = contacts.find(c => c.Id === savedDeal.contactId);
-      savedDeal.contactName = contact ? contact.name : "Unknown Contact";
+      savedDeal.contactName = contact ? contact.Name : "Unknown Contact";
       
       if (selectedDeal) {
         setDeals(prev => prev.map(d => d.Id === selectedDeal.Id ? savedDeal : d));
@@ -90,8 +90,8 @@ const Deals = () => {
   const handleUpdateDeal = async (dealId, updatedData) => {
     try {
       const updatedDeal = await dealService.update(dealId, updatedData);
-      const contact = contacts.find(c => c.Id === updatedDeal.contactId);
-      updatedDeal.contactName = contact ? contact.name : "Unknown Contact";
+const contact = contacts.find(c => c.Id === updatedDeal.contactId);
+      updatedDeal.contactName = contact ? contact.Name : "Unknown Contact";
       
       setDeals(prev => prev.map(d => d.Id === dealId ? updatedDeal : d));
       toast.success("Deal updated successfully");

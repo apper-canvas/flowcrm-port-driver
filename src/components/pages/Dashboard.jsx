@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { endOfMonth, endOfQuarter, endOfYear, format, isAfter, isBefore, isPast, isToday, startOfMonth, startOfQuarter, startOfYear, subMonths } from "date-fns";
+import ReactApexChart from "react-apexcharts";
+import contactService from "@/services/api/contactService";
+import taskService from "@/services/api/taskService";
+import dealService from "@/services/api/dealService";
+import { leadService } from "@/services/api/leadService";
+import activityService from "@/services/api/activityService";
 import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import Select from "@/components/atoms/Select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 import StatCard from "@/components/molecules/StatCard";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import contactService from "@/services/api/contactService";
-import dealService from "@/services/api/dealService";
-import taskService from "@/services/api/taskService";
-import activityService from "@/services/api/activityService";
-import { leadService } from "@/services/api/leadService";
-import { format, startOfMonth, endOfMonth, startOfQuarter, endOfQuarter, startOfYear, endOfYear, subMonths, isAfter, isBefore, isToday, isPast } from "date-fns";
-import ReactApexChart from "react-apexcharts";
+import Button from "@/components/atoms/Button";
+import Select from "@/components/atoms/Select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 
 const Dashboard = () => {
   const navigate = useNavigate();

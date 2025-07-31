@@ -5,23 +5,29 @@ import FormField from "@/components/molecules/FormField";
 import { toast } from "react-toastify";
 
 const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
+    jobTitle: "",
+    address: "",
+    notes: "",
     type: "lead"
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
     if (contact) {
       setFormData({
         name: contact.name || "",
         email: contact.email || "",
         phone: contact.phone || "",
         company: contact.company || "",
+        jobTitle: contact.jobTitle || "",
+        address: contact.address || "",
+        notes: contact.notes || "",
         type: contact.type || "lead"
       });
     } else {
@@ -30,13 +36,16 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
         email: "",
         phone: "",
         company: "",
+        jobTitle: "",
+        address: "",
+        notes: "",
         type: "lead"
       });
     }
     setErrors({});
   }, [contact, isOpen]);
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
@@ -51,6 +60,14 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
 
     if (!formData.company.trim()) {
       newErrors.company = "Company is required";
+    }
+
+    if (!formData.jobTitle.trim()) {
+      newErrors.jobTitle = "Job title is required";
+    }
+
+    if (formData.phone && !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ''))) {
+      newErrors.phone = "Please enter a valid phone number";
     }
 
     setErrors(newErrors);
@@ -101,7 +118,7 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+<form onSubmit={handleSubmit} className="p-6 space-y-4">
             <FormField
               label="Name"
               required
@@ -137,6 +154,32 @@ const ContactModal = ({ isOpen, onClose, contact, onSave }) => {
               onChange={(e) => handleChange("company", e.target.value)}
               error={errors.company}
               placeholder="Enter company name"
+            />
+
+            <FormField
+              label="Job Title"
+              required
+              value={formData.jobTitle}
+              onChange={(e) => handleChange("jobTitle", e.target.value)}
+              error={errors.jobTitle}
+              placeholder="Enter job title"
+            />
+
+            <FormField
+              label="Address"
+              value={formData.address}
+              onChange={(e) => handleChange("address", e.target.value)}
+              error={errors.address}
+              placeholder="Enter address"
+            />
+
+            <FormField
+              label="Notes"
+              type="textarea"
+              value={formData.notes}
+              onChange={(e) => handleChange("notes", e.target.value)}
+              error={errors.notes}
+              placeholder="Enter notes or additional information"
             />
 
             <FormField

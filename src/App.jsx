@@ -1,23 +1,23 @@
+import "@/index.css";
 import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Provider, useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { store } from "@/store";
-import { clearUser, setUser } from "@/store/userSlice";
-import Login from "@/components/pages/Login";
-import Signup from "@/components/pages/Signup";
-import Callback from "@/components/pages/Callback";
-import ErrorPage from "@/components/pages/ErrorPage";
-import ErrorPage from "@/components/pages/ErrorPage";
-import ResetPassword from "@/components/pages/ResetPassword";
-import PromptPassword from "@/components/pages/PromptPassword";
-import "@/index.css";
 import Layout from "@/components/organisms/Layout";
+import Login from "@/components/pages/Login";
+import PromptPassword from "@/components/pages/PromptPassword";
 import Tasks from "@/components/pages/Tasks";
+import ResetPassword from "@/components/pages/ResetPassword";
+import Callback from "@/components/pages/Callback";
 import Contacts from "@/components/pages/Contacts";
 import Dashboard from "@/components/pages/Dashboard";
 import Activities from "@/components/pages/Activities";
+import ErrorPage from "@/components/pages/ErrorPage";
+import Signup from "@/components/pages/Signup";
 import Leads from "@/components/pages/Leads";
+import Deals from "@/components/pages/Deals";
+import { clearUser, setUser } from "@/store/userSlice";
+import { store } from "@/store/index";
 
 // Create auth context
 export const AuthContext = createContext(null);

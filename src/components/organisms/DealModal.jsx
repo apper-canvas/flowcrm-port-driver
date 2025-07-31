@@ -5,43 +5,64 @@ import FormField from "@/components/molecules/FormField";
 import { toast } from "react-toastify";
 
 const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: "",
     value: "",
-    stage: "Lead",
-    contactId: ""
+    stage: "Prospecting",
+    contactId: "",
+    expectedCloseDate: "",
+    probability: "",
+    salesRep: "",
+    description: ""
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const stages = [
-    { value: "Lead", label: "Lead" },
-    { value: "Qualified", label: "Qualified" },
+const stages = [
+    { value: "Prospecting", label: "Prospecting" },
+    { value: "Qualification", label: "Qualification" },
     { value: "Proposal", label: "Proposal" },
     { value: "Negotiation", label: "Negotiation" },
-    { value: "Closed", label: "Closed" }
+    { value: "Closed Won", label: "Closed Won" },
+    { value: "Closed Lost", label: "Closed Lost" }
   ];
 
-  useEffect(() => {
+  const salesReps = [
+    { value: "john_doe", label: "John Doe" },
+    { value: "jane_smith", label: "Jane Smith" },
+    { value: "mike_johnson", label: "Mike Johnson" },
+    { value: "sarah_wilson", label: "Sarah Wilson" },
+    { value: "david_brown", label: "David Brown" }
+  ];
+
+useEffect(() => {
     if (deal) {
       setFormData({
         title: deal.title || "",
         value: deal.value?.toString() || "",
-        stage: deal.stage || "Lead",
-        contactId: deal.contactId || ""
+        stage: deal.stage || "Prospecting",
+        contactId: deal.contactId || "",
+        expectedCloseDate: deal.expectedCloseDate || "",
+        probability: deal.probability?.toString() || "",
+        salesRep: deal.salesRep || "",
+        description: deal.description || ""
       });
     } else {
       setFormData({
         title: "",
         value: "",
-        stage: "Lead",
-        contactId: ""
+        stage: "Prospecting",
+        contactId: "",
+        expectedCloseDate: "",
+        probability: "",
+        salesRep: "",
+        description: ""
       });
     }
     setErrors({});
   }, [deal, isOpen]);
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
 
     if (!formData.title.trim()) {
@@ -58,6 +79,20 @@ const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
       newErrors.contactId = "Please select a contact";
     }
 
+    if (!formData.expectedCloseDate) {
+      newErrors.expectedCloseDate = "Expected close date is required";
+    }
+
+    if (!formData.probability) {
+      newErrors.probability = "Probability is required";
+    } else if (isNaN(formData.probability) || parseFloat(formData.probability) < 0 || parseFloat(formData.probability) > 100) {
+      newErrors.probability = "Please enter a valid percentage (0-100)";
+    }
+
+    if (!formData.salesRep) {
+      newErrors.salesRep = "Please select a sales representative";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -71,10 +106,11 @@ const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
     }
 
     setLoading(true);
-    try {
+try {
       const dealData = {
         ...formData,
-        value: parseFloat(formData.value)
+        value: parseFloat(formData.value),
+        probability: parseFloat(formData.probability)
       };
       await onSave(dealData);
       toast.success(deal ? "Deal updated successfully!" : "Deal created successfully!");
@@ -115,47 +151,93 @@ const DealModal = ({ isOpen, onClose, deal, contacts, onSave }) => {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 space-y-4">
-            <FormField
-              label="Deal Title"
-              required
-              value={formData.title}
-              onChange={(e) => handleChange("title", e.target.value)}
-              error={errors.title}
-              placeholder="Enter deal title"
-            />
+<form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                label="Deal Title"
+                required
+                value={formData.title}
+                onChange={(e) => handleChange("title", e.target.value)}
+                error={errors.title}
+                placeholder="Enter deal title"
+                className="md:col-span-2"
+              />
+
+              <FormField
+                label="Deal Value"
+                type="number"
+                required
+                value={formData.value}
+                onChange={(e) => handleChange("value", e.target.value)}
+                error={errors.value}
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+              />
+
+              <FormField
+                label="Probability (%)"
+                type="number"
+                required
+                value={formData.probability}
+                onChange={(e) => handleChange("probability", e.target.value)}
+                error={errors.probability}
+                placeholder="50"
+                min="0"
+                max="100"
+              />
+
+              <FormField
+                label="Contact"
+                type="select"
+                required
+                value={formData.contactId}
+                onChange={(e) => handleChange("contactId", e.target.value)}
+                error={errors.contactId}
+                options={[
+                  { value: "", label: "Select a contact" },
+                  ...contactOptions
+                ]}
+              />
+
+              <FormField
+                label="Expected Close Date"
+                type="date"
+                required
+                value={formData.expectedCloseDate}
+                onChange={(e) => handleChange("expectedCloseDate", e.target.value)}
+                error={errors.expectedCloseDate}
+              />
+
+              <FormField
+                label="Stage"
+                type="select"
+                value={formData.stage}
+                onChange={(e) => handleChange("stage", e.target.value)}
+                options={stages}
+              />
+
+              <FormField
+                label="Sales Representative"
+                type="select"
+                required
+                value={formData.salesRep}
+                onChange={(e) => handleChange("salesRep", e.target.value)}
+                error={errors.salesRep}
+                options={[
+                  { value: "", label: "Select a sales rep" },
+                  ...salesReps
+                ]}
+              />
+            </div>
 
             <FormField
-              label="Deal Value"
-              type="number"
-              required
-              value={formData.value}
-              onChange={(e) => handleChange("value", e.target.value)}
-              error={errors.value}
-              placeholder="0.00"
-              step="0.01"
-              min="0"
-            />
-
-            <FormField
-              label="Contact"
-              type="select"
-              required
-              value={formData.contactId}
-              onChange={(e) => handleChange("contactId", e.target.value)}
-              error={errors.contactId}
-              options={[
-                { value: "", label: "Select a contact" },
-                ...contactOptions
-              ]}
-            />
-
-            <FormField
-              label="Stage"
-              type="select"
-              value={formData.stage}
-              onChange={(e) => handleChange("stage", e.target.value)}
-              options={stages}
+              label="Description"
+              type="textarea"
+              value={formData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
+              placeholder="Enter deal description..."
+              rows="3"
             />
 
             <div className="flex space-x-3 pt-4">

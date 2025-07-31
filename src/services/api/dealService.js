@@ -24,7 +24,7 @@ class DealService {
     return this.deals.filter(d => d.contactId === parseInt(contactId));
   }
 
-  async create(dealData) {
+async create(dealData) {
     await new Promise(resolve => setTimeout(resolve, 450));
     
     const newId = Math.max(...this.deals.map(d => d.Id)) + 1;
@@ -32,6 +32,8 @@ class DealService {
       Id: newId,
       ...dealData,
       contactId: parseInt(dealData.contactId),
+      value: parseFloat(dealData.value),
+      probability: parseFloat(dealData.probability),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -40,7 +42,7 @@ class DealService {
     return { ...newDeal };
   }
 
-  async update(id, updateData) {
+async update(id, updateData) {
     await new Promise(resolve => setTimeout(resolve, 400));
     
     const index = this.deals.findIndex(d => d.Id === parseInt(id));
@@ -53,6 +55,8 @@ class DealService {
       ...updateData,
       Id: parseInt(id),
       contactId: updateData.contactId ? parseInt(updateData.contactId) : this.deals[index].contactId,
+      value: updateData.value ? parseFloat(updateData.value) : this.deals[index].value,
+      probability: updateData.probability !== undefined ? parseFloat(updateData.probability) : this.deals[index].probability,
       updatedAt: new Date().toISOString()
     };
     

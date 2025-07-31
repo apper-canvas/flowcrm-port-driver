@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { format } from "date-fns";
+import contactService from "@/services/api/contactService";
+import dealService from "@/services/api/dealService";
 import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
-import PipelineBoard from "@/components/organisms/PipelineBoard";
 import DealModal from "@/components/organisms/DealModal";
+import PipelineBoard from "@/components/organisms/PipelineBoard";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import dealService from "@/services/api/dealService";
-import contactService from "@/services/api/contactService";
-import { toast } from "react-toastify";
+import Button from "@/components/atoms/Button";
 
 const Deals = () => {
   const [deals, setDeals] = useState([]);
@@ -102,18 +103,32 @@ const Deals = () => {
   const filteredDeals = deals.filter(deal => {
     return deal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
            deal.contactName.toLowerCase().includes(searchQuery.toLowerCase());
-  });
+});
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
   const getTotalPipelineValue = () => {
-    return filteredDeals.reduce((sum, deal) => sum + deal.value, 0);
+    return filteredDeals.reduce((total, deal) => total + deal.value, 0);
   };
+
+  const getSalesRepName = (salesRep) => {
+    const names = {
+      "john_doe": "John Doe",
+      "jane_smith": "Jane Smith", 
+      "mike_johnson": "Mike Johnson",
+      "sarah_wilson": "Sarah Wilson",
+      "david_brown": "David Brown"
+    };
+    return names[salesRep] || salesRep;
+  };
+
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadData} />;
@@ -197,17 +212,25 @@ const Deals = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Stage
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Value
+Value
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Created
+                    Sales Rep
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
+                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                     Close Date
+                   </th>
+                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                     Probability
+                   </th>
+                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                     Value
+                   </th>
+                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                     Actions
+Actions
                   </th>
                 </tr>
-              </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredDeals.map((deal) => (
                   <tr key={deal.Id} className="hover:bg-gradient-to-r hover:from-surface/30 hover:to-gray-50/30 transition-colors">
@@ -221,15 +244,25 @@ const Deals = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-primary/10 to-secondary/10 text-primary">
-                        {deal.stage}
+{deal.stage}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm font-semibold text-gray-900">
-                      {formatCurrency(deal.value)}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      {new Date(deal.createdAt).toLocaleDateString()}
-                    </td>
+                   <td className="px-6 py-4 text-sm text-gray-500">
+                     {getSalesRepName(deal.salesRep)}
+                   </td>
+                   <td className="px-6 py-4 text-sm text-gray-500">
+                     {deal.expectedCloseDate ? format(new Date(deal.expectedCloseDate), "MMM d, yyyy") : "N/A"}
+                   </td>
+                   <td className="px-6 py-4 text-sm text-gray-500">
+                     <div className="flex items-center space-x-1">
+                       <div className={`w-2 h-2 rounded-full ${deal.probability >= 75 ? 'bg-green-500' : deal.probability >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} />
+                       <span>{deal.probability}%</span>
+                     </div>
+</div>
+                   </td>
+                   <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                     {formatCurrency(deal.value)}
+                   </td>
                     <td className="px-6 py-4 text-right">
                       <Button
                         variant="ghost"

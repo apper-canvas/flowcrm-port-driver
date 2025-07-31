@@ -8,12 +8,13 @@ const PipelineBoard = ({ deals, onUpdateDeal, onAddDeal }) => {
   const [draggedDeal, setDraggedDeal] = useState(null);
   const [dragOverStage, setDragOverStage] = useState(null);
 
-  const stages = [
-    { name: "Lead", color: "from-blue-500 to-blue-600" },
-    { name: "Qualified", color: "from-green-500 to-green-600" },
-    { name: "Proposal", color: "from-yellow-500 to-yellow-600" },
-    { name: "Negotiation", color: "from-orange-500 to-orange-600" },
-    { name: "Closed", color: "from-purple-500 to-purple-600" }
+const stages = [
+    { name: "Prospecting", color: "from-blue-500 to-blue-600", icon: "Search" },
+    { name: "Qualification", color: "from-green-500 to-green-600", icon: "CheckCircle" },
+    { name: "Proposal", color: "from-yellow-500 to-yellow-600", icon: "FileText" },
+    { name: "Negotiation", color: "from-orange-500 to-orange-600", icon: "MessageSquare" },
+    { name: "Closed Won", color: "from-emerald-500 to-emerald-600", icon: "Trophy" },
+    { name: "Closed Lost", color: "from-red-500 to-red-600", icon: "XCircle" }
   ];
 
   const getDealsByStage = (stage) => {
@@ -74,19 +75,22 @@ const PipelineBoard = ({ deals, onUpdateDeal, onAddDeal }) => {
   return (
     <div className="space-y-6">
       {/* Pipeline Overview */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
         {stages.map((stage) => {
           const stageDeals = getDealsByStage(stage.name);
           const totalValue = getTotalValueByStage(stage.name);
           
           return (
-            <Card key={stage.name} className="hover:shadow-md transition-shadow">
+            <Card key={stage.name} className="hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1">
               <CardContent className="p-4 text-center">
-                <div className={`w-12 h-12 bg-gradient-to-r ${stage.color} rounded-full flex items-center justify-center mx-auto mb-3`}>
-                  <span className="text-white font-bold text-lg">{stageDeals.length}</span>
+                <div className={`w-14 h-14 bg-gradient-to-r ${stage.color} rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg`}>
+                  <ApperIcon name={stage.icon} size={20} className="text-white" />
                 </div>
-                <h3 className="font-medium text-gray-900 text-sm">{stage.name}</h3>
-                <p className="text-xs text-gray-500 mt-1">{formatCurrency(totalValue)}</p>
+                <div className="space-y-1">
+                  <h3 className="font-semibold text-gray-900 text-sm">{stage.name}</h3>
+                  <p className="text-lg font-bold text-gray-900">{stageDeals.length}</p>
+                  <p className="text-xs text-gray-500 font-medium">{formatCurrency(totalValue)}</p>
+                </div>
               </CardContent>
             </Card>
           );
@@ -94,7 +98,7 @@ const PipelineBoard = ({ deals, onUpdateDeal, onAddDeal }) => {
       </div>
 
       {/* Pipeline Board */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 min-h-[600px]">
+<div className="grid grid-cols-1 lg:grid-cols-6 gap-6 min-h-[600px]">
         {stages.map((stage) => {
           const stageDeals = getDealsByStage(stage.name);
           const isDropTarget = dragOverStage === stage.name;
@@ -118,9 +122,10 @@ const PipelineBoard = ({ deals, onUpdateDeal, onAddDeal }) => {
                       <span className="text-white font-bold text-xs">{stageDeals.length}</span>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500">
-                    {formatCurrency(getTotalValueByStage(stage.name))}
-                  </p>
+<div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>{stageDeals.length} deals</span>
+                    <span className="font-semibold">{formatCurrency(getTotalValueByStage(stage.name))}</span>
+                  </div>
                 </CardHeader>
               </Card>
 

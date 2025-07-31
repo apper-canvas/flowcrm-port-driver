@@ -210,27 +210,29 @@ const Deals = () => {
                     Contact
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Stage
+Stage
                   </th>
-Value
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Value
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Sales Rep
                   </th>
-                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                     Close Date
-                   </th>
-                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                     Probability
-                   </th>
-                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                     Value
-                   </th>
-                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                     Actions
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Close Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Probability
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Value
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
 Actions
                   </th>
                 </tr>
+              </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredDeals.map((deal) => (
                   <tr key={deal.Id} className="hover:bg-gradient-to-r hover:from-surface/30 hover:to-gray-50/30 transition-colors">
@@ -244,10 +246,12 @@ Actions
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-primary/10 to-secondary/10 text-primary">
-{deal.stage}
+                        {deal.stage}
                       </span>
                     </td>
-                   <td className="px-6 py-4 text-sm text-gray-500">
+                    <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                      {formatCurrency(deal.value)}
+                    </td>
                      {getSalesRepName(deal.salesRep)}
                    </td>
                    <td className="px-6 py-4 text-sm text-gray-500">
@@ -256,9 +260,8 @@ Actions
                    <td className="px-6 py-4 text-sm text-gray-500">
                      <div className="flex items-center space-x-1">
                        <div className={`w-2 h-2 rounded-full ${deal.probability >= 75 ? 'bg-green-500' : deal.probability >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} />
-                       <span>{deal.probability}%</span>
+<span>{deal.probability}%</span>
                      </div>
-</div>
                    </td>
                    <td className="px-6 py-4 text-sm font-semibold text-gray-900">
                      {formatCurrency(deal.value)}

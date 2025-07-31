@@ -4,7 +4,7 @@ import DealCard from "@/components/molecules/DealCard";
 import Empty from "@/components/ui/Empty";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 
-const PipelineBoard = ({ deals, onUpdateDeal, onAddDeal }) => {
+const PipelineBoard = ({ deals, onUpdateDeal, onAddDeal, onDeleteDeal }) => {
   const [draggedDeal, setDraggedDeal] = useState(null);
   const [dragOverStage, setDragOverStage] = useState(null);
 
@@ -140,11 +140,12 @@ const stages = [
                   </div>
                 ) : (
                   stageDeals.map((deal) => (
-                    <DealCard
+<DealCard
                       key={deal.Id}
                       deal={deal}
                       onDragStart={handleDragStart}
                       onDragEnd={handleDragEnd}
+                      onDeleteDeal={onDeleteDeal}
                       isDragging={draggedDeal?.Id === deal.Id}
                     />
                   ))

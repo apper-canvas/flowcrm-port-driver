@@ -99,11 +99,25 @@ const contact = contacts.find(c => c.Id === updatedDeal.contactId);
       toast.error("Failed to update deal");
     }
   };
-
-  const filteredDeals = deals.filter(deal => {
+const filteredDeals = deals.filter(deal => {
     return deal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
            deal.contactName.toLowerCase().includes(searchQuery.toLowerCase());
-});
+  });
+
+  const handleDeleteDeal = async (dealId) => {
+    try {
+      setLoading(true);
+      const success = await dealService.delete(dealId);
+      if (success) {
+        toast.success('Deal deleted successfully');
+        await loadData(); // Refresh the deals list
+      }
+    } catch (error) {
+      toast.error('Failed to delete deal');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -192,10 +206,11 @@ const contact = contacts.find(c => c.Id === updatedDeal.contactId);
           icon="Target"
         />
       ) : viewMode === "pipeline" ? (
-        <PipelineBoard
+<PipelineBoard
           deals={filteredDeals}
           onUpdateDeal={handleUpdateDeal}
           onAddDeal={handleAddDeal}
+          onDeleteDeal={handleDeleteDeal}
         />
       ) : (
         <div className="bg-gradient-to-br from-surface/50 to-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -260,15 +275,29 @@ const contact = contacts.find(c => c.Id === updatedDeal.contactId);
                         <span>{deal.probability}%</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleEditDeal(deal)}
-                        className="hover:bg-gradient-to-r hover:from-secondary/10 hover:to-accent/10"
-                      >
-                        <ApperIcon name="Edit" size={14} />
-                      </Button>
+<td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEditDeal(deal)}
+                          className="hover:bg-gradient-to-r hover:from-secondary/10 hover:to-accent/10"
+                        >
+                          <ApperIcon name="Edit" size={14} />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            if (window.confirm('Are you sure you want to delete this deal?')) {
+                              handleDeleteDeal(deal.Id);
+                            }
+                          }}
+                          className="hover:bg-red-50 text-gray-400 hover:text-red-500"
+                        >
+                          <ApperIcon name="Trash2" size={14} />
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}

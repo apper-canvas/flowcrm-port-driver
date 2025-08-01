@@ -6,12 +6,12 @@ import { toast } from "react-toastify";
 import { format } from "date-fns";
 
 const TaskModal = ({ isOpen, onClose, task, contacts, onSave }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: "",
     description: "",
     dueDate: "",
     contactId: "",
-    status: "pending"
+    status: "to do"
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -25,13 +25,13 @@ const TaskModal = ({ isOpen, onClose, task, contacts, onSave }) => {
         contactId: task.contactId?.toString() || "",
         status: task.status || "pending"
       });
-    } else {
+} else {
       setFormData({
         title: "",
         description: "",
         dueDate: format(new Date(), "yyyy-MM-dd"),
         contactId: "",
-        status: "pending"
+        status: "to do"
       });
     }
     setErrors({});
@@ -143,13 +143,15 @@ const TaskModal = ({ isOpen, onClose, task, contacts, onSave }) => {
             />
 
             <FormField
-              label="Status"
+label="Status"
               type="select"
               value={formData.status}
               onChange={(e) => handleChange("status", e.target.value)}
               options={[
-                { value: "pending", label: "Pending" },
-                { value: "completed", label: "Completed" }
+                { value: "to do", label: "To Do" },
+                { value: "in progress", label: "In Progress" },
+                { value: "completed", label: "Completed" },
+                { value: "on hold", label: "On Hold" }
               ]}
             />
 

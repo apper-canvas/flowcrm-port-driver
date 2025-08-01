@@ -46,15 +46,15 @@ const CompanyModal = ({ isOpen, onClose, company, onSave }) => {
       newErrors.name = "Company name is required";
     }
 
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+if (formData.email && !/^[^s@]+@[^s@]+\.[^s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
 
-    if (formData.website && !/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(formData.website)) {
+if (formData.website && !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(formData.website)) {
       newErrors.website = "Please enter a valid website URL";
     }
 
-    if (formData.phone && !/^[+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-()]/g, ''))) {
+if (formData.phone && !/^[+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[s\-()]/g, ''))) {
       newErrors.phone = "Please enter a valid phone number";
     }
 

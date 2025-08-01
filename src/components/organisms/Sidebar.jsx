@@ -6,6 +6,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 const navigation = [
     { name: "Dashboard", href: "/", icon: "LayoutDashboard" },
     { name: "Contacts", href: "/contacts", icon: "Users" },
+    { name: "Companies", href: "/companies", icon: "Building2" },
     { name: "Leads", href: "/leads", icon: "UserCheck" },
     { name: "Deals", href: "/deals", icon: "Target" },
     { name: "Tasks", href: "/tasks", icon: "CheckSquare" },
